@@ -1,0 +1,199 @@
+{% extends 'catalog/base.html' %}
+
+{% block title %}Home - MediQuick{% endblock %}
+
+{% load static %}  
+
+{% block extra_styles %}
+    <style>
+        .hero-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 20px;
+        margin-top: 20px;  
+        }
+        .hero-title {
+        font-size: 36px;
+        font-weight: bold;
+        color: #333;
+        }
+
+        .hero-description {
+        font-size: 18px;
+        color: #666;
+        margin-top: 10px;
+        max-width: 600px;
+        }
+        
+        .search-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        max-width: 600px;
+        margin: 20px auto;     
+        }
+
+        .search-main {
+        display: flex;
+        width: 100%;
+        background: white;
+        padding: 10px;
+        border-radius: 50px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .search-main input {
+        flex: 1;
+        border: none;
+        outline: none;
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 50px;
+        }
+
+        .search-main button {
+        background-color: #4cc9f0;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 50px;
+        margin-left: 10px;
+        cursor: pointer;
+        }
+
+        .search-main button:hover {
+        background-color: #3a8fbd;
+        }
+
+        .search-toggle {
+        margin-top: 20px;
+        display: flex;
+        gap: 30px;
+        justify-content: center;
+        }
+
+        .search-toggle label {
+        display: flex;
+        align-items: center;
+        font-size: 16px;
+        cursor: pointer;
+        }
+
+        .search-toggle input {
+        margin-right: 6px;
+        }
+
+        
+        .alphabet-filter {
+        margin: 30px auto;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;         
+        gap: 10px;
+        max-width: 600px;               
+        }
+        .alphabet-filter a {
+        text-decoration: none;
+        padding: 8px 12px;
+        border-radius: 4px;
+        background-color: #f1f1f1;
+        color: #3a0ca3;
+        font-weight: bold;
+        font-size: 16px;
+        }
+        .alphabet-filter a.active {
+        background-color: #3a0ca3;
+        color: white;
+        }
+
+        .medicine-list {
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        }
+
+        .medicine-item {
+        background: #f9f9f9;
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        width: 80%;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+   
+      <div class="hero-section">
+            <div class="hero-title">We understand your needs</div>
+            <p class="hero-description">
+            MediQuick enables you to quickly access information about your medicines
+            </p>
+            <form method="get" action="{% url 'home' %}" class="search-box">
+
+  <div class="search-main">
+    <input
+      type="text"
+      name="q"
+      placeholder="Search for medicines…"
+      value="{{ search_query }}"
+    >
+    <button type="submit">Search</button>
+  </div>
+
+  <div class="search-toggle">
+    <label>
+      <input
+        type="radio"
+        name="search_type"
+        value="medicine"
+        {% if search_type == 'medicine' %}checked{% endif %}
+      >
+      Medicine
+    </label>
+    <label>
+      <input
+        type="radio"
+        name="search_type"
+        value="symptom"
+        {% if search_type == 'symptom' %}checked{% endif %}
+      >
+      Symptom
+    </label>
+  </div>
+</form>
+    </div>
+
+    <div class="alphabet-filter">
+        {% for char in alphabet %}
+            <a href="?letter={{ char }}" class="{% if letter == char %}active{% endif %}">
+                {{ char }}
+            </a>
+        {% endfor %}
+    </div>
+        
+        {% if medicines %}
+        <div class="medicine-list">
+                <h3>Search Results:</h3>
+                {% for medicine in medicines %}
+                    <div class="medicine-item">
+                        <h4>
+                            <a href="{% url 'medicine_detail' pk=medicine.pk %}">{{ medicine.name }}</a>
+                        </h4>
+                        <p>{{ medicine.description }}</p>
+                    </div>
+                {% endfor %}
+        </div>
+        {% elif search_query %}
+            <div class="medicine-list">
+                <p>No medicines found for "{{ search_query }}".</p>
+            </div>
+        {% endif %}
+
+{% endblock %}

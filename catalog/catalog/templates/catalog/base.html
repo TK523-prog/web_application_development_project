@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>{% block title %}MediQuick{% endblock %}</title>
+
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'catalog/style.css' %}">
+  
+  {% block extra_styles %}{% endblock %}
+</head>
+
+<body>
+  <header class="top-bar">
+    <a href="{% url 'landing' %}" class="logo-link">
+      <img src="{% static 'images/logo.png' %}" alt="MediQuick Logo">
+      <span>MediQuick</span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="{% url 'about' %}">About us</a>
+      <a href="{% url 'contact' %}">Contact us</a>
+      {% if user.is_authenticated %}
+      <a href="{% url 'profile' %}">
+        {{ user.get_full_name }}’s Profile</a>
+        {% else %}
+        <a href="{% url 'signup'  %}">Sign Up</a>
+        <a href="{% url 'login'   %}">Login</a>
+      {% endif %}
+    </nav>
+  </header>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+ 
+  <script>
+    let lastScroll = 0;
+    const bar = document.querySelector('.top-bar');
+    window.addEventListener('scroll', () => {
+      const st = window.pageYOffset;
+      bar.style.top = (st > lastScroll) ? '-80px' : '0';
+      lastScroll = st <= 0 ? 0 : st;
+    });
+  </script>
+
+<script src="https://unpkg.com/scrollreveal"></script>
+</body>
+</html>

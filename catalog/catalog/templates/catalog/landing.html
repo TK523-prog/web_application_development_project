@@ -1,0 +1,141 @@
+{% extends 'catalog/base.html' %}
+{% load static %}
+
+{% block extra_styles %}
+<style>
+  :root {
+    --primary: #4da3ff;
+    --accent: #e0f7fa;
+    --dark: #333;
+    --light: #fff;
+    --green: #28a745;
+    --green-hover: #218838;
+    --orange: #f57c00;
+    --orange-hover: #e65100;
+  }
+
+  .hero {
+    background: url("{% static 'images/landing_banner.jpg' %}") center/cover no-repeat;
+    color: white;
+    text-align: center;
+    padding: 120px 20px;
+    position: relative;
+  }
+
+  .hero::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.4); 
+    z-index: 0;
+  }
+
+  .hero > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero h1 {
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+
+  .hero p {
+    font-size: 20px;
+    margin-bottom: 30px;
+  }
+
+  .hero-buttons.single-button {
+    display: flex;
+    justify-content: center;
+  }
+
+  .hero-buttons .cta-big {
+    background: linear-gradient(to right, #4CAF50, #81C784);
+    padding: 16px 36px;
+    font-size: 20px;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.hero-buttons .cta-big:hover {
+    background: linear-gradient(to right, #388E3C, #66BB6A);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+  .testimonials {
+    background: var(--accent);
+    padding: 60px 20px;
+    text-align: center;
+  }
+
+  .testimonials h2 {
+    font-size: 32px;
+    margin-bottom: 40px;
+    color: var(--dark);
+  }
+
+  .testimonial-grid {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .testimonial {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    width: 300px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    text-align: center;
+  }
+
+  .testimonial p {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #555;
+  }
+
+  .testimonial strong {
+    color: var(--primary);
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <h1>Welcome to MediQuick</h1>
+  <p>Your trusted platform for fast, reliable and easy medicine access.</p>
+  <div class="hero-buttons single-button">
+    <a href="{% url 'home' %}" class="cta-big">Start Now – Search by Medicine or Symptom</a>
+  </div>
+</section>
+
+<section class="testimonials">
+  <h2>What Our Users Say</h2>
+  <div class="testimonial-grid">
+    <div class="testimonial">
+      <p>"MediQuick saved me hours of searching for the right meds."</p>
+      <strong>– Sarah L., Hamburg</strong>
+    </div>
+    <div class="testimonial">
+      <p>"Super intuitive and helpful, even for non-tech-savvy users."</p>
+      <strong>– Jens R., Oslo</strong>
+    </div>
+    <div class="testimonial">
+      <p>"Clear, fast and trustworthy – I recommend it to friends!"</p>
+      <strong>– Aylin D., Istanbul</strong>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
