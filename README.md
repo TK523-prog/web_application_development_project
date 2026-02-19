@@ -6,4 +6,4 @@ The core features of the application are search & browse, user management, and t
 
 # Run locally
 
-<pre> ```python manage.py run ``` </pre>
+<pre> python manage.py run </pre>
